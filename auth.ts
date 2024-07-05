@@ -23,15 +23,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
+      console.log(user, account);
       if (account?.provider !== "credentials") return true;
       const existingUser = await GetUserById(user.id as string);
       //prevent signin w/o email verification
       if (!existingUser?.emailVerified) return false;
       return true;
     },
+    //TODO add 2fa
     async session({ token, session }) {
-      console.log({ sessionToken: token });
-
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
