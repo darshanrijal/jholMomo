@@ -1,6 +1,6 @@
 "use server";
 import { RegisterSchema } from "@/schemas";
-import { z } from "zod";
+import { string, z } from "zod";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { GetUserByEmail } from "@/data/user";
@@ -30,6 +30,6 @@ export const Register = async (values: z.infer<typeof RegisterSchema>) => {
     );
     return { success: "Confirmation email sent" };
   } catch (error) {
-    return { error };
+    return { error: "Something went wrong" };
   }
 };
