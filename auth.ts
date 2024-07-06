@@ -32,7 +32,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
           existingUser.id
         );
-        
+
         if (!twoFactorConfirmation) {
           return false;
         }
@@ -52,6 +52,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (session.user && token.role) {
         session.user.role = token.role as UserRole;
       }
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnebled as boolean;
+      }
       return session;
     },
     async jwt({ token }) {
@@ -59,6 +62,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       const existingUser = await GetUserById(token.sub);
       if (!existingUser) return token;
       token.role = existingUser.role;
+      token.isTwoFactorEnebled = existingUser.isTwoFactorEnabled;
       return token;
     },
   },
