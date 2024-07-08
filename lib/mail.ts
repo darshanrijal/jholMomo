@@ -2,7 +2,7 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 export const sendVerificationEmain = async (email: string, token: string) => {
-  const confirmLink = `${NEXT_PUBLIC_APP_URL}/auth/new-verification?token=${token}`;
+  const confirmLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/new-verification?token=${token}`;
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
