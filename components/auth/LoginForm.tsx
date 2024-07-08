@@ -1,16 +1,8 @@
-import React, { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { LoginSchema } from "@/schemas";
+"use client";
 import { CardWrapper } from "@/components/auth/CardWrapper";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/FormError";
-import { FormSucess } from "@/components/FormSuccess";
-import { Login } from "@/actions/login";
-import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -19,7 +11,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import { z } from "zod";
+import { LoginSchema } from "@/schemas";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { FormError } from "@/components/FormError";
+import { FormSucess } from "@/components/FormSuccess";
+import { Login } from "@/actions/login";
+import { useTransition, useState } from "react";
+import Link from "next/link";
 export const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackURL = searchParams.get("callbackUrl");
@@ -38,7 +38,6 @@ export const LoginForm = () => {
       password: "",
     },
   });
-
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
@@ -60,7 +59,6 @@ export const LoginForm = () => {
         .catch(() => setError("Something went wrong"));
     });
   };
-
   return (
     <CardWrapper
       headerLabel="Welcome back"
@@ -148,4 +146,3 @@ export const LoginForm = () => {
     </CardWrapper>
   );
 };
-  

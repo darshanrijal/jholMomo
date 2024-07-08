@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { newVerification } from "@/actions/new-verification";
