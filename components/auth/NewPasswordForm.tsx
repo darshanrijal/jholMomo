@@ -1,7 +1,15 @@
-"use client";
-import { CardWrapper } from "@/components/auth/CardWrapper";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { NewPassword } from "@/schemas";
+import { CardWrapper } from "@/components/auth/CardWrapper";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { FormError } from "@/components/FormError";
+import { FormSucess } from "@/components/FormSuccess";
+import { newPassword } from "@/actions/new-password";
 import {
   Form,
   FormControl,
@@ -10,15 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
-import { NewPassword } from "@/schemas";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/FormError";
-import { FormSucess } from "@/components/FormSuccess";
-import { useTransition, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { newPassword } from "@/actions/new-password";
+
 export const NewPasswordForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -31,16 +31,18 @@ export const NewPasswordForm = () => {
       password: "",
     },
   });
+
   const onSubmit = (values: z.infer<typeof NewPassword>) => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      newPassword(values,token).then((data) => {
+      newPassword(values, token).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });
     });
   };
+
   return (
     <CardWrapper
       headerLabel="Enter a new Password"
